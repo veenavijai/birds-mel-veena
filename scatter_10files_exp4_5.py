@@ -48,7 +48,7 @@ num_bins = 8            #for compute_adi_even, NDSI
 multiples = 1000        #spacing to calculate frequency indices
 
 #directory
-dir_name = os.getcwd() + '\\data\\'
+dir_name = os.path.join(os.getcwd(), 'data')
 
 #NDSI bin frequencies in kHz according to the original paper
 #a = anthrophony bin, 1-2 kHz
@@ -182,7 +182,7 @@ def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
     sns.set_palette(custom_palette)
 
     #plot_kws adjusts marker size
-    a = sns.pairplot(all_data_df, hue=Hue, plot_kws={"s": 20}, diag_kind="kde")
+    a = sns.pairplot(all_data_df, hue=Hue, plot_kws={"s": 20})
     
     #Title
     
