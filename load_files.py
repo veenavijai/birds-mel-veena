@@ -1,3 +1,6 @@
+
+import os
+
 #function to load spectrograms and display dimensions (optional)
 def load_display_dimensions(class_name, str_file, dir_name, dim=0):
 
@@ -10,7 +13,7 @@ def load_display_dimensions(class_name, str_file, dir_name, dim=0):
     #   no. of time_steps = len(spec_data['spec_t'])
     #   no. of freq_bins = len(spec_data['spec_f'])
     
-    fname_load = dir_name + class_name + str_file
+    fname_load = os.path.join(dir_name, class_name + str_file)
     spec_data = np.load(fname_load)
     
     time_steps = len(spec_data['spec_t'])

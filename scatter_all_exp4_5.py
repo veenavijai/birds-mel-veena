@@ -44,7 +44,7 @@ num_bins = 8            #for compute_adi_even, NDSI
 multiples = 1000        #spacing to calculate frequency indices
 
 #directory
-dir_name = os.getcwd() + '\\data\\'
+dir_name = os.path.join(os.getcwd(), 'data')
 
 #NDSI bin frequencies in kHz according to the original paper
 #a = anthrophony bin, 1-2 kHz
@@ -64,7 +64,7 @@ def calls_channels(class_name, multiples, num_bins, dim, start_a_freq, stop_a_fr
     #Load the correct class
     spec_data_ch0 = load_display_dimensions(class_name, str_class, dir_name, dim)
     
-    str_class2 = '_preprocessed_uncompressed.npz'
+    str_class2 = '_preprocessed.npz'
     spec_data_all4 = load_display_dimensions(class_name, str_class2, dir_name, dim)       
        
     #Calling helper function for compute_adi_even
@@ -222,7 +222,7 @@ def combine_specs_4_5(exp, spec_data):
 def calls_exp_4_5(exp, class_name, multiples, num_bins, dim, start_a_freq, stop_a_freq, start_b_freq, stop_b_freq):
 
     #Load the correct class
-    str_class2 = '_preprocessed_uncompressed.npz'
+    str_class2 = '_preprocessed.npz'
     spec_data_all4 = load_display_dimensions(class_name, str_class2, dir_name, dim) 
        
     #Calling helper function for compute_adi_even
