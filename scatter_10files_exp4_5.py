@@ -47,6 +47,9 @@ str_file = '_melspec.npz'  #if we're using mel spectrogram
 num_bins = 8            #for compute_adi_even, NDSI
 multiples = 1000        #spacing to calculate frequency indices
 
+#directory
+dir_name = os.getcwd() + '\\data\\'
+
 #NDSI bin frequencies in kHz according to the original paper
 #a = anthrophony bin, 1-2 kHz
 #b = biophony bin, 2-8 kHz
@@ -63,10 +66,10 @@ num_files = len(fname_list)
 def calls_channels(class_name, multiples, num_bins, dim, start_a_freq, stop_a_freq, start_b_freq, stop_b_freq):
 
     #Load the correct files
-    spec_data_ch0 = load_display_dimensions(class_name, str_file, dim)
+    spec_data_ch0 = load_display_dimensions(class_name, str_file, dir_name, dim)
     
     str_file2 = '_melspec_dd.npz'
-    spec_data_all4 = load_display_dimensions(class_name, str_file2, dim)       
+    spec_data_all4 = load_display_dimensions(class_name, str_file2, dir_name, dim)       
        
     #Calling helper function for compute_adi_even
     start_freq_arr_ch0, stop_freq_arr_ch0 = get_start_stop_indices(spec_data_ch0['spec_f'], multiples, num_bins)
@@ -233,7 +236,7 @@ def calls_exp_4_5(exp, fname, multiples, num_bins, dim, start_a_freq, stop_a_fre
 
      #Load the correct files
     str_file2 = '_melspec_dd.npz'
-    spec_data_all4 = load_display_dimensions(fname, str_file2, dim) 
+    spec_data_all4 = load_display_dimensions(fname, str_file2, dir_name, dim) 
        
     #Calling helper function for compute_adi_even
     start_freq_arr_all4, stop_freq_arr_all4 = get_start_stop_indices(spec_data_all4['spec_f'], multiples, num_bins)
