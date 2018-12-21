@@ -196,7 +196,7 @@ def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
         plot_title = "Scatterplot matrix for channel" + str(ch)
         
     a.fig.suptitle(plot_title)
-    a.fig.subplots_adjust(top=.9)
+    a.fig.subplots_adjust(top=0.9, hspace=0.4, right = 0.8, left = 0.07, bottom=0.1, wspace = 0.4)
     
     plt.show()
     
