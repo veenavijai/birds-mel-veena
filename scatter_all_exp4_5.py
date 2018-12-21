@@ -183,8 +183,8 @@ def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
         
         
     a.fig.suptitle(plot_title)
-    a.fig.subplots_adjust(top=.9)
-    
+    a.fig.subplots_adjust(top=0.9, hspace=0.4, bottom=0.1, wspace = 0.4)        
+  
     plt.show()
     
     return all_data_df
