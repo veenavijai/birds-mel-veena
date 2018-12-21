@@ -168,7 +168,7 @@ def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
     #Setting seaborn specifications
 
     #plot_kws adjusts marker size
-    a = sns.pairplot(all_data_df, hue=Hue, plot_kws={"s": 10})
+    a = sns.pairplot(all_data_df, hue=Hue, plot_kws={"s": 10}, diag_kind="kde")
     
     #Title
     
