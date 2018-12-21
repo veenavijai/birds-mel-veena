@@ -7,7 +7,7 @@
 #NOTE about this version - 
 #(1) All implementations are vectorized and have been checked against original implementation.
 #(2) eps is added to all spectrograms to get rid of divide by zero error.
-#(3) This loads data from files ending with .npz and _preprocessed_uncompressed.npz
+#(3) This loads data from files ending with .npz and _preprocessed.npz
 
 #Has operations to get different scatterplots as functions named exp1_... and so on.
 #Each recording is exactly 2 s long
@@ -144,6 +144,27 @@ def convert_df(ACI, ADI, ADI_even, SH, NDSI, class_name, ch):
  
     return data
     
+def sns_plot(df, Hue, ch):
+        
+    #Setting seaborn specifications
+
+    #plot_kws adjusts marker size 
+    a = sns.pairplot(df, hue=Hue, plot_kws={"s": 10}, diag_kind="kde")
+    
+    #Setting plot title
+    if(ch==0):
+        plot_title = "Scatterplot matrix for spectrogram"
+    elif(ch==14):
+        plot_title = "Scatterplot matrix for maximum of channels"
+    elif(ch==15):
+        plot_title = "Scatterplot matrix for average of channels"
+    else:
+        plot_title = "Scatterplot matrix for channel" + str(ch)
+        
+    a.fig.suptitle(plot_title)
+    
+    a.fig.subplots_adjust(top=0.9, hspace=0.4, bottom=0.1, wspace = 0.4)        
+    
     
 def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
     
@@ -157,40 +178,27 @@ def get_df_and_plot(ch, ACI, ADI, ADI_even, SH, NDSI):
 
     #Converting to a pandas dataframe
     all_data_df = pd.concat(all_data_arr)
-    
-    #Scatterplot matrix for all 4 classes
 
+    #Setting Hue parameter correctly
     if(ch!=0 and ch!=14 and ch!=15):
         Hue = 'Class' + str(ch)
     else:
         Hue = 'Class'
     
-    #Setting seaborn specifications
+    #getting Good-Bad data as a pandas dataframe by dropping Hue
+    gb_data_df = all_data_df[~all_data_df[Hue].isin(['human', 'maybe'])]
+    
+    sns_plot(all_data_df, Hue, ch)
+    
+    #Plotting good-bad data for exp5
+    if(ch==14 or ch==15):
+        sns_plot(gb_data_df, Hue, ch)
 
-    #plot_kws adjusts marker size
-    a = sns.pairplot(all_data_df, hue=Hue, plot_kws={"s": 10}, diag_kind="kde")
-    
-    #Title
-    
-    if(ch==0):
-        plot_title = "Scatterplot matrix for spectrogram"
-    elif(ch==14):
-        plot_title = "Scatterplot matrix for maximum of channels"
-    elif(ch==15):
-        plot_title = "Scatterplot matrix for average of channels"
-    else:
-        plot_title = "Scatterplot matrix for channel" + str(ch)
-        
-        
-    a.fig.suptitle(plot_title)
-    a.fig.subplots_adjust(top=0.9, hspace=0.4, bottom=0.1, wspace = 0.4)        
-  
-    plt.show()
-    
-    return all_data_df
-    
+    return all_data_df, gb_data_df
+            
 #All plots
 all_data_df = []
+gb_data_df = []
 
 for j in range(5):
     
@@ -202,9 +210,23 @@ for j in range(5):
     NDSI_channel = [i[j] for i in NDSI]
     
     #j = channel number (0 for spec, 1-4 for corresponding channels)
-    df_returned = get_df_and_plot(j, ACI_channel, ADI_channel, ADI_even_channel, SH_channel, NDSI_channel)
+    all_data_df_returned, gb_data_df_returned = get_df_and_plot(j, ACI_channel, ADI_channel, ADI_even_channel, SH_channel, NDSI_channel)
                                   
-    all_data_df.append(df_returned)
+    all_data_df.append(all_data_df_returned)
+    gb_data_df.append(gb_data_df_returned)
+    
+#Plotting good-bad data separately 
+for j in range(5):
+    
+    gb_df = gb_data_df[j]
+    
+    #Setting Hue parameter correctly
+    if(j!=0 and j!=14 and j!=15):
+        Hue = 'Class' + str(j)
+    else:
+        Hue = 'Class'
+        
+    sns_plot(gb_df, Hue, j)
     
     
 def combine_specs_4_5(exp, spec_data):
@@ -263,8 +285,7 @@ for class_no in range(num_classes):
     
 #Plots
 ch = 14 #needed for distinct plot title
-df_returned_4 = get_df_and_plot(ch, ACI_4, ADI_4, ADI_even_4, SH_4, NDSI_4)
-
+df_returned_4, gb_df_returned_4 = get_df_and_plot(ch, ACI_4, ADI_4, ADI_even_4, SH_4, NDSI_4)
 
 #Calls for each class - Exp 5 with avg values
 
@@ -291,4 +312,6 @@ for class_no in range(num_classes):
     
 #Plots
 ch = 15 #needed for distinct plot title
-df_returned_5 = get_df_and_plot(ch, ACI_5, ADI_5, ADI_even_5, SH_5, NDSI_5)
+df_returned_5, gb_df_returned_5 = get_df_and_plot(ch, ACI_5, ADI_5, ADI_even_5, SH_5, NDSI_5)
+
+plt.show()
