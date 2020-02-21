@@ -1,6 +1,6 @@
 ## Classification of spectrograms into bird calls vs background noise vs human speech
 
-This repo documents my work with Dr. Shyam Madhusudhana as part of my internship with the Bioacoustics Research Program, Cornell Lab of Ornithology.
+This repo documents my work with Dr. Shyam Madhusudhana as part of my internship with the Bioacoustics Research Program, Cornell Lab of Ornithology. You can read my blog post [here.](https://www.birds.cornell.edu/ccb/signal-processing-taking-wing-a-brp-interns-perspective/)
 
 **indices_file.py**
 
@@ -18,6 +18,10 @@ Loads all the spectrogram data which is stored as a dictionary.
 **scatter_all_exp4_5.py**
 
 This program loads data from 4 different classes - 'good' (probably contains a bird call), bad (probably just background noise), human (human speech) \& maybe (doubtful what the content is). For each spectrogram, it calculates the 5 above acoustic indices, and uses vectorized implementations wherever possible. The final result is a scatterplot for each acoustic index along with a scatterplot matrix made in seaborn.
+
+<p align="center">
+  <img width="500" height="500" src="https://user-images.githubusercontent.com/21968647/75006094-6d26bd80-5425-11ea-8430-0c91770c670a.png">
+</p>
 
 **scatter_10files_exp4_5.py**
 
